@@ -18,27 +18,25 @@ const (
 )
 
 func parsePackage(data string) (int, time.Duration, error) {
-	if len(data) == 0 {
-		return 0, 0, errors.New("Строка не должна быть пустой")
-	}
+	
 	str := strings.Split(data, ",")
 
 	if len(str) != 2 {
-		return 0, 0, errors.New("Неправильный ввод данных")
+		return 0, 0, errors.New("неправильный ввод данных")
 	}
 	stepsCount, err := strconv.Atoi(str[0])
 	if err != nil {
-		return 0, 0, errors.New("Ошибка преобразования числа")
+		return 0, 0, errors.New("неправильное преобразования числа")
 	}
 	if stepsCount <= 0 {
-		return 0, 0, errors.New("Количество шагов должно быть больше 0")
+		return 0, 0, errors.New("количество шагов должно быть больше 0")
 	}
 	duration, err := time.ParseDuration(str[1])
 	if err != nil {
-		return 0, 0, errors.New("Ошибка преобразования числа")
+		return 0, 0, errors.New("неправильное преобразования числа")
 	}
-	if duration.Seconds() <= 0 {
-		return 0, 0, errors.New("Ошибка преобразования время меньше 0")
+	if duration <= 0 {
+		return 0, 0, errors.New("время меньше 0")
 	}
 	return stepsCount, duration, nil
 }
@@ -46,9 +44,6 @@ func parsePackage(data string) (int, time.Duration, error) {
 func DayActionInfo(data string, weight, height float64) string {
 	stepsCount, time_spent, err := parsePackage(data)
 	if err != nil {
-		return ""
-	}
-	if stepsCount <= 0 {
 		return ""
 	}
 	dist := float64(stepsCount) * stepLength
