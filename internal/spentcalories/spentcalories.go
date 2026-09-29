@@ -68,14 +68,18 @@ func TrainingInfo(data string, weight, height float64) (string, error) {
 	switch slice {
 	case "Ходьба":
 		len_step := distance(stepsCount, height)
-		average_speed := meanSpeed(stepsCount, height, dur)
-		count_calories, _ := WalkingSpentCalories(stepsCount, weight, height, dur)
-		str = fmt.Sprintf("Тип тренировки: %s\nДлительность: %.2f ч.\nДистанция: %.2f км.\nСкорость: %.2f км/ч\nСожгли калорий: %.2f\n", slice, dur.Hours(), len_step, average_speed, count_calories)
+		averageSpeed := meanSpeed(stepsCount, height, dur)
+		countCalories, err := WalkingSpentCalories(stepsCount, weight, height, dur); if err != nil{
+			return "",err
+		}
+		str = fmt.Sprintf("Тип тренировки: %s\nДлительность: %.2f ч.\nДистанция: %.2f км.\nСкорость: %.2f км/ч\nСожгли калорий: %.2f\n", slice, dur.Hours(), len_step, averageSpeed, countCalories)
 	case "Бег":
 		len_step := distance(stepsCount, height)
-		average_speed := meanSpeed(stepsCount, height, dur)
-		count_calories, _ := RunningSpentCalories(stepsCount, weight, height, dur)
-		str = fmt.Sprintf("Тип тренировки: %s\nДлительность: %.2f ч.\nДистанция: %.2f км.\nСкорость: %.2f км/ч\nСожгли калорий: %.2f\n", slice, dur.Hours(), len_step, average_speed, count_calories)
+		averageSpeed := meanSpeed(stepsCount, height, dur)
+		countCalories, err := RunningSpentCalories(stepsCount, weight, height, dur); if err != nil{
+			return "",err
+		}
+		str = fmt.Sprintf("Тип тренировки: %s\nДлительность: %.2f ч.\nДистанция: %.2f км.\nСкорость: %.2f км/ч\nСожгли калорий: %.2f\n", slice, dur.Hours(), len_step, averageSpeed, countCalories)
 	default:
 		return "", errors.New("неизвестный тип тренировки")
 	}
